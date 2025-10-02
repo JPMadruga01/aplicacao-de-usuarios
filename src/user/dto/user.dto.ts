@@ -9,7 +9,7 @@ import {
   Min,
 } from 'class-validator';
 
-export class AuthDto {
+export class CreateUserDto {
   @IsEmail()
   @IsNotEmpty()
   email: string;
@@ -37,12 +37,30 @@ export class AuthDto {
   level?: number;
 }
 
-export class LoginDto {
+export class UpdateUserDto {
+  @IsOptional()
   @IsEmail()
-  @IsNotEmpty()
-  email: string;
+  email?: string;
 
+  @IsOptional()
   @IsString()
-  @IsNotEmpty()
-  password: string;
+  @MinLength(8, { message: 'A senha deve ter no mínimo 8 caracteres' })
+  @Matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]/, {
+    message:
+      'A senha deve conter pelo menos uma letra maiúscula, uma minúscula, um número e um caractere especial',
+  })
+  password?: string;
+
+  @IsOptional()
+  @IsString()
+  firstName?: string;
+
+  @IsOptional()
+  @IsString()
+  lastName?: string;
+
+  @IsOptional()
+  @IsInt()
+  @Min(1)
+  level?: number;
 }
